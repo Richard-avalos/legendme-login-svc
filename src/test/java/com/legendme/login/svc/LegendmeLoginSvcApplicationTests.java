@@ -1,10 +1,10 @@
-package com.ravalos.hex_spring_template;
+package com.legendme.login.svc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HexSpringTemplateApplicationTests {
+class LegendmeLoginSvcApplicationTests {
 
 	@Test
 	void contextLoads() {

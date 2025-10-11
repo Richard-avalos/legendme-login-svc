@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ravalos</groupId>
-	<artifactId>hex-spring-template</artifactId>
+	<artifactId>legendme-login-svc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hex-spring-template</name>
 	<description>Plantilla de proyecto java con spring basado en arquitectura hexagonal</description>
