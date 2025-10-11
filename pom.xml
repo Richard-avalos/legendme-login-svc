@@ -11,7 +11,7 @@
 	<groupId>com.ravalos</groupId>
 	<artifactId>legendme-login-svc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hex-spring-template</name>
+	<name>legendme-login-svc</name>
 	<description>Plantilla de proyecto java con spring basado en arquitectura hexagonal</description>
 	<url/>
 	<licenses>
