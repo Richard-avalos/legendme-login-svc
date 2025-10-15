@@ -1,5 +1,6 @@
 package com.legendme.login.svc.application.port.out;
 
+import com.legendme.login.svc.adapters.out.http.dto.UserResponse;
 import com.legendme.login.svc.shared.dto.GoogleUserPayload;
 import com.legendme.login.svc.shared.dto.UserData;
 
@@ -14,5 +15,5 @@ public interface UserDirectoryPort {
      * @param googleUserPayload Los datos del usuario obtenidos de Google.
      * @return Un objeto {@link UserData} que contiene la información actualizada del usuario.
      */
-    UserData upsertGoogleUser(GoogleUserPayload googleUserPayload, String provider);
+    UserResponse upsertGoogleUser(GoogleUserPayload googleUserPayload);
 }

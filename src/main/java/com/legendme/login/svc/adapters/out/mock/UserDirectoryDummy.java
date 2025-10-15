@@ -1,3 +1,4 @@
+/*
 package com.legendme.login.svc.adapters.out.mock;
 
 import com.legendme.login.svc.application.port.out.UserDirectoryPort;
@@ -28,3 +29,4 @@ public class UserDirectoryDummy implements UserDirectoryPort {
     }
 
 }
+*/

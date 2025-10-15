@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * Implementa el contrato definido en {@link AuthController}.
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("legendme/login")
 @RequiredArgsConstructor
 public class AuthControllerImpl implements AuthController {
    private final AuthenticateWithGoogle useCase;
@@ -30,6 +30,10 @@ public class AuthControllerImpl implements AuthController {
    }
 
    @GetMapping("/api/secure/ping")
-   public String pingSecure() { return "pong-secure"; }
+   public String pingSecure() {
+      return "pong-secure";
+   }
+
+
 
 }

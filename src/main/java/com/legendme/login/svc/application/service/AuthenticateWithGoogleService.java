@@ -36,9 +36,9 @@ public class AuthenticateWithGoogleService implements AuthenticateWithGoogle {
         // Importante: Aqui es donde se va a definir la logica del usuario
         var user = userDir.upsertGoogleUser(new GoogleUserPayload(
                 g.sub(), g.email(), g.name(), g.picture(), g.emailVerified()
-        ), "GOOGLE"); // Inserta o actualiza la información del usuario.
+        )); // Inserta o actualiza la información del usuario.
 
-        AuthTokens tokens = jwt.pair(user.userId(), user.email(), user.name()); // Genera los tokens de autenticación.
-        return new Result(user.userId(), user.email(), user.name(), tokens); // Retorna el resultado de la autenticación.
+        AuthTokens tokens = jwt.pair(user.id(), user.email(), user.name()); // Genera los tokens de autenticación.
+        return new Result(user.id(), user.email(), user.name(), tokens); // Retorna el resultado de la autenticación.
     }
 }

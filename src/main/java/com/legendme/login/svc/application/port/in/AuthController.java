@@ -22,5 +22,5 @@ public interface AuthController {
      * @param email El correo electrónico del usuario.
      * @param name El nombre del usuario.
      */
-    record AuthResponse(String accessToken, String refreshToken, Long userId, String email, String name) {}
+    record AuthResponse(String accessToken, String refreshToken, java.util.UUID userId, String email, String name) {}
 }

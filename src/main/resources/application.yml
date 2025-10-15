@@ -1,6 +1,9 @@
 server:
   port: 8081
 
+legendme-users-svc:
+  url: http://localhost:8080/legendme/users/create/google-user
+
 user:
   service:
     # TODO: Update to actual user service URL

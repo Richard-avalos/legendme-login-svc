@@ -1,11 +1,18 @@
 package com.legendme.login.svc.adapters.out.http;
 
+import com.legendme.login.svc.adapters.out.http.dto.UserRequest;
+import com.legendme.login.svc.adapters.out.http.dto.UserResponse;
 import com.legendme.login.svc.application.port.out.UserDirectoryPort;
 import com.legendme.login.svc.shared.dto.GoogleUserPayload;
 import com.legendme.login.svc.shared.dto.UserData;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
+
 
 /**
  * Cliente HTTP para interactuar con el directorio de usuarios.
@@ -14,9 +21,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 @RequiredArgsConstructor
 public class UserDirectoryClient implements UserDirectoryPort {
-    private final WebClient userWebClient;
+    private final RestClient restClient;
+    private final Logger logger = LoggerFactory.getLogger(UserDirectoryClient.class);
 
-    // TODO: Definir logica que tomara el endpoint en el otro servicio
+    @Value("${legendme-users-svc.url}")
+    private String url;
+
     /**
      * Inserta o actualiza la información de un usuario en el directorio de usuarios.
      *
@@ -24,16 +34,41 @@ public class UserDirectoryClient implements UserDirectoryPort {
      * @return Un objeto {@link UserData} que contiene la información actualizada del usuario.
      */
     @Override
-    public UserData upsertGoogleUser(GoogleUserPayload p, String provider) {
-        request r = new request(p, provider);
-        return userWebClient.post()
-                // TODO: set correct path
-                .uri("")
-                .bodyValue(r)
+    public UserResponse upsertGoogleUser(GoogleUserPayload p) {
+        UserRequest request = buildRequest(p);
+
+        logger.info("Init Upserting Google User, request: {}", request);
+
+        var response = restClient.post()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
                 .retrieve()
-                .bodyToMono(UserData.class)
-                .block();
+                .toEntity(UserResponse.class);
+
+        return response.hasBody() ? response.getBody() : null;
     }
 
-    record request(GoogleUserPayload googleUserPayload, String provider){}
+    public UserRequest buildRequest(GoogleUserPayload p) {
+        // Evita nulls
+        String fullName = p.name() != null ? p.name().trim() : "";
+        String[] parts = fullName.split(" ", 4);
+
+        String name = parts.length > 0 ? parts[0] : "";
+        String lastname = parts.length > 3 ? parts[2]: "";
+
+        // Crear el request con valores seguros
+        return new UserRequest(
+                name,
+                lastname,
+                null,
+                p.email().split("@")[0],
+                p.email(),
+                null,
+                "GOOGLE"
+        );
+    }
+
 }
+
+

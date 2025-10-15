@@ -4,6 +4,8 @@ import com.legendme.login.svc.application.port.out.JwtIssuerPort;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * Implementación del puerto {@link JwtIssuerPort} para la emisión de tokens JWT.
  * Este componente genera tokens de acceso y de actualización utilizando una clave secreta.
@@ -54,7 +56,7 @@ public class JwtIssuerImpl implements JwtIssuerPort {
      * @return El token de acceso generado como una cadena compacta.
      */
     @Override
-    public String issueAccessToken(Long userId, String email, String name) {
+    public String issueAccessToken(UUID userId, String email, String name) {
         var now = java.time.Instant.now();
         return io.jsonwebtoken.Jwts.builder()
                 .subject(String.valueOf(userId))
@@ -74,7 +76,7 @@ public class JwtIssuerImpl implements JwtIssuerPort {
      * @return El token de actualización generado como una cadena compacta.
      */
     @Override
-    public String issueRefreshToken(Long userId) {
+    public String issueRefreshToken(UUID userId) {
         var now = java.time.Instant.now();
         return io.jsonwebtoken.Jwts.builder()
                 .subject(String.valueOf(userId))

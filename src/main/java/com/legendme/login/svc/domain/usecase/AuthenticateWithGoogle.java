@@ -15,7 +15,7 @@ public interface AuthenticateWithGoogle {
      * @param name El nombre del usuario autenticado.
      * @param tokens Los tokens de autenticación asociados al usuario.
      */
-    record Result(Long userId, String email, String name, AuthTokens tokens) {}
+    record Result(java.util.UUID userId, String email, String name, AuthTokens tokens) {}
 
     /**
      * Autentica a un usuario utilizando un token de identificación de Google.
