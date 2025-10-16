@@ -28,7 +28,7 @@ import java.net.URL;
  * 2. Recibe un token ID (JWT) desde el cliente.
  * 3. Parsea y valida la firma del token utilizando el algoritmo RS256.
  * 4. Verifica los campos estándar del token:
- *    - Issuer (iss): debe ser accounts.google.com o https://accounts.google.com.
+ *    - Issuer (iss): debe ser accounts.google.com o <a href="https://accounts.google.com">...</a>.
  *    - Audience (aud): debe contener el clientId de la aplicación.
  *    - Expiration: debe estar vigente (no expirado).
  * 5. Si todas las validaciones son correctas, retorna un objeto VerifiedGoogleUser
