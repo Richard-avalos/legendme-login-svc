@@ -3,7 +3,7 @@ package com.legendme.login.svc.shared.exceptions;
 import org.springframework.http.HttpStatus;
 
 /**
- * Excepción personalizada para manejar errores específicos en la aplicación.
+ * Custom exception to handle specific errors in the application.
  * Esta clase extiende {@link RuntimeException} y permite incluir un código de error
  * y un estado HTTP asociado con el error.
  */
