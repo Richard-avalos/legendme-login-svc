@@ -1,0 +1,36 @@
+server:
+  port: 8081
+  error:
+    whitelabel:
+      enabled: false
+    include-stacktrace: never
+
+legendme-users-svc:
+  url: http://localhost:8080/legendme/users/create/google-user
+
+google:
+  client-id: ${CLIENT_ID}
+  jwks-uri: https://www.googleapis.com/oauth2/v3/certs
+
+app:
+  jwt:
+    issuer: legendme-login-svc
+    secret: ${JWT_SECRET}
+    access-exp-minutes: 60
+    refresh-exp-days: 7
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: servlet
+
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+    org.springframework.boot: WARN
+    org.springframework.web: WARN
+    org.springframework.security: INFO
+    org.apache.catalina: WARN
+    org.apache.coyote: WARN
+    org.hibernate: WARN
