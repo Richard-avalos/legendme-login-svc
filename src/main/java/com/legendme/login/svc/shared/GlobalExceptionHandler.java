@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Errors> handleErrorException(ErrorException ex, HttpServletRequest req) {
         HttpStatus status = ex.status() != null ? ex.status() : HttpStatus.BAD_REQUEST;
         Errors body = new Errors(
-                ex.status().value(),
+                status.value(),
                 ex.getMessage()
         );
         return ResponseEntity.status(status).body(body);

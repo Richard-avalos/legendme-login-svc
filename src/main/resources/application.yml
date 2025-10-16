@@ -34,8 +34,3 @@ logging:
     org.apache.catalina: WARN
     org.apache.coyote: WARN
     org.hibernate: WARN
-
-
-
-
-
