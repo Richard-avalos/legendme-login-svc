@@ -1,6 +1,5 @@
 package com.legendme.login.svc.shared.dto;
 
-
 /**
  * Representa los datos de un usuario obtenidos de Google.
  *

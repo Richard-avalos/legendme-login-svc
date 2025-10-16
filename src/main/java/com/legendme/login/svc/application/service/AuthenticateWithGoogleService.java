@@ -50,7 +50,7 @@ public class AuthenticateWithGoogleService implements AuthenticateWithGoogle {
         g = googleVerifier.verify(idToken);
 
         if (Boolean.FALSE.equals(g.emailVerified())) {
-            throw new ErrorException(String.format("El email %s, No esta verificado por google", g.email())
+            throw new ErrorException(String.format("El email %s, no esta verificado por google", g.email())
                     , "G-LOG-06", HttpStatus.UNAUTHORIZED);
         }
 
