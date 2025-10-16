@@ -16,7 +16,6 @@ import java.util.Date;
  * @param password
  * @param provider
  */
-
 public record UserRequest(String name, String lastname, Date birthDate, String username, String email, String password, String provider) {
 
 }

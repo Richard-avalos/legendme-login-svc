@@ -1,6 +1,5 @@
 package com.legendme.login.svc.shared.dto;
 
-import java.util.Date;
 
 /**
  * Representa los datos de un usuario obtenidos de Google.

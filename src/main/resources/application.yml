@@ -1,26 +1,21 @@
 server:
   port: 8081
+  error:
+    whitelabel:
+      enabled: false
+    include-stacktrace: never
 
 legendme-users-svc:
   url: http://localhost:8080/legendme/users/create/google-user
 
-user:
-  service:
-    # TODO: Update to actual user service URL
-    base-url: http://localhost:8082
-  s2s:
-    shared-secret: ${SERVICE_SHARED_SECRET:dev-internal-secret}
-
 google:
-  # TODO: Update to actual Google OAuth client ID pasar a .env
-  client-id: 1020419851357-d2bggq7tach58ba8b6ptq0cpjuqr1icm.apps.googleusercontent.com
+  client-id: ${CLIENT_ID}
   jwks-uri: https://www.googleapis.com/oauth2/v3/certs
 
 app:
   jwt:
-    # TODO: Update to a secure, random 256-bit secret in production
     issuer: legendme-login-svc
-    secret: ${JWT_SECRET:dev256bitsecretpleasechangethisverylong3456789346745678}
+    secret: ${JWT_SECRET}
     access-exp-minutes: 60
     refresh-exp-days: 7
 
@@ -31,5 +26,16 @@ spring:
 
 logging:
   level:
-    org.springframework.security: DEBUG
+    root: INFO
+    org.springframework: WARN
+    org.springframework.boot: WARN
+    org.springframework.web: WARN
+    org.springframework.security: INFO
+    org.apache.catalina: WARN
+    org.apache.coyote: WARN
+    org.hibernate: WARN
+
+
+
+
 

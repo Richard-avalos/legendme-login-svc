@@ -1,7 +1,9 @@
 package com.legendme.login.svc.adapters.out.security;
 
 import com.legendme.login.svc.application.port.out.JwtIssuerPort;
+import com.legendme.login.svc.shared.exceptions.ErrorException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -58,6 +60,15 @@ public class JwtIssuerImpl implements JwtIssuerPort {
     @Override
     public String issueAccessToken(UUID userId, String email, String name) {
         var now = java.time.Instant.now();
+
+        Object[] required = { userId, email, name };
+        for (Object field : required) {
+            if (field == null) {
+                throw new ErrorException("Error al firmar JWT: valor nulo detectado",
+                        "G-LOG-08", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
         return io.jsonwebtoken.Jwts.builder()
                 .subject(String.valueOf(userId))
                 .issuer(issuer)
