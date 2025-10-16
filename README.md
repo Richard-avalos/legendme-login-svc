@@ -72,9 +72,9 @@
 #### 🧪 Ejemplo con `curl`
 
 ```bash
-curl -X POST http://localhost:8080/legendme/login/google \
-  -H "Content-Type: application/json" \
-  -d '{"idToken": "TOKEN_DE_GOOGLE"}'
+    curl -X POST http://localhost:8080/legendme/login/google \
+      -H "Content-Type: application/json" \
+      -d '{"idToken": "TOKEN_DE_GOOGLE"}'
 ```
 
 ---
