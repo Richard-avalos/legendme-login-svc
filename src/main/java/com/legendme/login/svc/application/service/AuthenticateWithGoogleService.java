@@ -51,7 +51,7 @@ public class AuthenticateWithGoogleService implements AuthenticateWithGoogle {
 
         if (Boolean.FALSE.equals(g.emailVerified())) {
             throw new ErrorException(String.format("El email %s, No esta verificado por google", g.email())
-                    , "G-LOG-05", HttpStatus.UNAUTHORIZED);
+                    , "G-LOG-06", HttpStatus.UNAUTHORIZED);
         }
 
         user = userDir.upsertGoogleUser(new GoogleUserPayload(

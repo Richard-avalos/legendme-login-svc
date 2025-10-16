@@ -80,12 +80,12 @@ public class UserDirectoryClient implements UserDirectoryPort {
         if (response.getStatusCode() != HttpStatus.OK) {
             log.error("Error al llamar al servicio de usuarios, Status: {}, Body: {}",
                     response.getStatusCode(), response.hasBody() ? response.getBody() : "No Body");
-            throw new ErrorException("Error al llamar al servicio de usuarios", "G-LOG-06", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ErrorException("Error al llamar al servicio de usuarios", "G-LOG-07", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         if (response.getBody() == null) {
             log.error("El servicio de usuarios devolvió un body null");
-            throw new ErrorException("Error al llamar al servicio de usuarios", "G-LOG-07", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ErrorException("Error al llamar al servicio de usuarios", "G-LOG-08", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return response.getBody();

@@ -44,7 +44,7 @@ public class JwtIssuerImpl implements JwtIssuerPort {
         }
 
         this.issuer = issuer;
-        this.key = io.jsonwebtoken.security.Keys.hmacShaKeyFor(bytes);;
+        this.key = io.jsonwebtoken.security.Keys.hmacShaKeyFor(bytes);
         this.accExp = accExp;
         this.refExp = refExp;
     }
@@ -65,7 +65,7 @@ public class JwtIssuerImpl implements JwtIssuerPort {
         for (Object field : required) {
             if (field == null) {
                 throw new ErrorException("Error al firmar JWT: valor nulo detectado",
-                        "G-LOG-08", HttpStatus.INTERNAL_SERVER_ERROR);
+                        "G-LOG-09", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
