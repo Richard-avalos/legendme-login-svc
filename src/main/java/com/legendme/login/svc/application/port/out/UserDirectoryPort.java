@@ -16,4 +16,8 @@ public interface UserDirectoryPort {
      * @return Un objeto {@link UserData} que contiene la información actualizada del usuario.
      */
     UserResponse upsertGoogleUser(GoogleUserPayload googleUserPayload);
+
+    UserResponse findByEmail(String email);
+
+    UserResponse createLocalUser(String firstName, String lastName, String username, String email, String password);
 }

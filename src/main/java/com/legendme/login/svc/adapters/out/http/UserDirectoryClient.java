@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientResponseException;
+import java.util.Map;
 
 /**
  * Cliente HTTP responsable de comunicarse con el microservicio de usuarios (legendme-users-svc).
@@ -45,6 +47,11 @@ public class UserDirectoryClient implements UserDirectoryPort {
     @Value("${legendme-users-svc.url}")
     private String url;
 
+    @Value("${legendme-users-svc.findByEmailUrl}")
+    private String findByEmailUrl;
+
+    @Value("${legendme-users-svc.createLocalUrl}")
+    private String createLocalUrl;
 
     /**
      * Realiza un upsert (crear o actualizar) de un usuario autenticado con Google en el servicio de usuarios.
@@ -92,6 +99,52 @@ public class UserDirectoryClient implements UserDirectoryPort {
     }
 
     /**
+     * Consulta el Users Service por email.
+     * - Retorna UserResponse si la respuesta es 2xx.
+     * - Retorna null si el servicio responde 404 o 500 con el mensaje "Usuario no encontrado".
+     * - Lanza ErrorException para cualquier otro 4xx/5xx.
+     *
+     * @param email email del usuario a consultar.
+     * @return UserResponse si existe, o null si no existe.
+     */
+    @Override
+    public UserResponse findByEmail(String email) {
+        try {
+            logger.info("Llamando UsersSvc findByEmail: {}", findByEmailUrl);
+
+            var response = restClient.post()
+                    .uri(findByEmailUrl)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(Map.of("email", email))
+                    .retrieve()
+                    .toEntity(UserResponse.class);
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            }
+
+            if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+                return null;
+            }
+            throw new ErrorException("Error consultando usuario por email",
+                "L-REG-01", HttpStatus.valueOf(response.getStatusCode().value()));
+
+        } catch (RestClientResponseException ex) {
+            int code = ex.getStatusCode().value();
+            String body = ex.getResponseBodyAsString();
+            if (code == 404) return null;
+
+            if (code == 500 && body != null && body.contains("Usuario no encontrado")) {
+                log.warn("UsersSvc by-email devolvió 500 'Usuario no encontrado'. Lo tratamos como NO EXISTE.");
+                return null;
+            }
+            log.error("Fallo findByEmail. status={}, body={}", code, body);
+            throw new ErrorException("Error consultando usuario por email: " + ex.getStatusText(),
+                    "L-REG-01", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Construye un objeto UserRequest a partir de los datos obtenidos de un usuario de Google.
      *
      * Reglas:
@@ -121,6 +174,48 @@ public class UserDirectoryClient implements UserDirectoryPort {
         );
     }
 
+    /**
+     * Crea un usuario LOCAL en el Users Service enviando el password.
+     * - Retorna UserResponse si la respuesta es 2xx con body.
+     * - Lanza ErrorException(CONFLICT) si el servicio responde 409 (email/username ya existe).
+     * - Lanza ErrorException(INTERNAL_SERVER_ERROR) para otros códigos no exitosos.
+     *
+     * @param firstName nombre.
+     * @param lastName apellido.
+     * @param username username sugerido.
+     * @param email email del usuario.
+     * @param password contraseña en texto claro (el Users Service se encarga de validarla/hashearla).
+     * @return UserResponse con el usuario creado.
+     */
+    @Override
+    public UserResponse createLocalUser(String firstName, String lastName, String username, String email, String password) {
+        logger.info("Llamando UsersSvc createLocal: {}", createLocalUrl);
+
+        var req = new UserRequest(
+                firstName,
+                lastName,
+                null,
+                username,
+                email,
+                password,
+                "LOCAL"
+        );
+
+        var response = restClient.post()
+                .uri(createLocalUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(req)
+                .retrieve()
+                .toEntity(UserResponse.class);
+
+        if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+            if (response.getStatusCode() == HttpStatus.CONFLICT) {
+                throw new ErrorException("El email ya está en uso en Users Service", "L-REG-02", HttpStatus.CONFLICT);
+            }
+            throw new ErrorException("Error creando usuario LOCAL", "L-REG-03", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response.getBody();
+    }
 }
 
 
