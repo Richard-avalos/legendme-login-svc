@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS credentials (
+  id BINARY(16) NOT NULL,
+  user_id BINARY(16) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password_hash VARCHAR(100) NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+  created_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  updated_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  CONSTRAINT pk_credentials PRIMARY KEY (id),
+  CONSTRAINT uk_credentials_email UNIQUE (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE INDEX idx_credentials_user_id ON credentials (user_id);
