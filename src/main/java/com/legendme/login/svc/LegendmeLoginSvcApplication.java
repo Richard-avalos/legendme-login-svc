@@ -10,6 +10,7 @@ public class LegendmeLoginSvcApplication {
 		Dotenv dotenv = Dotenv.load();
 		System.setProperty("CLIENT_ID", dotenv.get("CLIENT_ID"));
 		System.setProperty("JWT_SECRET", dotenv.get("JWT_SECRET"));
+		System.setProperty("X-Internal-Token", dotenv.get("X-Internal-Token"));
 		SpringApplication.run(LegendmeLoginSvcApplication.class, args);
 	}
 

@@ -17,7 +17,7 @@ public interface UserDirectoryPort {
      */
     UserResponse upsertGoogleUser(GoogleUserPayload googleUserPayload);
 
-    UserResponse findByEmail(String email);
+    Boolean ExistByEmail(String email);
 
-    UserResponse createLocalUser(String firstName, String lastName, String username, String email, String password);
+    //UserResponse createLocalUser(String firstName, String lastName, String username, String email, String password);
 }

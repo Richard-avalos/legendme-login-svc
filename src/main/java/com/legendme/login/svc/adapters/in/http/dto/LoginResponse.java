@@ -1,5 +1,7 @@
 package com.legendme.login.svc.adapters.in.http.dto;
 
+import java.util.UUID;
+
 /**
  * DTO que representa la respuesta enviada al cliente tras un inicio de sesión exitoso.
  *
@@ -26,7 +28,7 @@ package com.legendme.login.svc.adapters.in.http.dto;
 public record LoginResponse(
         String accessToken,
         String tokenType,
-        long expiresIn,
-        String userId,
-        String email
+        UUID userId,
+        String email,
+        String name
 ) {}

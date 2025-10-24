@@ -1,5 +1,7 @@
 package com.legendme.login.svc.adapters.in.http.dto;
 
+import java.util.UUID;
+
 /**
  * DTO que representa la respuesta devuelta al cliente tras completar el registro de un nuevo usuario.
  *
@@ -23,9 +25,7 @@ package com.legendme.login.svc.adapters.in.http.dto;
  * Se retorna como respuesta del endpoint `/register` al completar el proceso de creación de usuario.
  */
 public record RegisterResponse (
-        String userId,
-        String firstName,
-        String lastName,
-        String email,
-        String status
+        UUID userId,
+        String username,
+        String email
 ){}

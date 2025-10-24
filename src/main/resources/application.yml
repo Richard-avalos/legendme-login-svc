@@ -7,7 +7,7 @@ server:
 
 legendme-users-svc:
   url: http://localhost:8080/legendme/users/create/google-user
-  findByEmailUrl: http://localhost:8080/legendme/users/by-email
+  existByEmailUrl: http://localhost:8082/legendme/users/exist-by-email
   createLocalUrl: http://localhost:8080/legendme/users/create
 
 
@@ -16,6 +16,8 @@ google:
   jwks-uri: https://www.googleapis.com/oauth2/v3/certs
 
 app:
+  X-Internal-Token:
+    ${X-Internal-Token}
   jwt:
     issuer: legendme-login-svc
     secret: ${JWT_SECRET}
