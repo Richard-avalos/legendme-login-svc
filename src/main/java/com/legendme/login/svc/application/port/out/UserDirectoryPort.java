@@ -1,14 +1,18 @@
 package com.legendme.login.svc.application.port.out;
 
+import com.legendme.login.svc.adapters.in.http.dto.RegisterRequest;
 import com.legendme.login.svc.adapters.out.http.dto.UserResponse;
 import com.legendme.login.svc.shared.dto.GoogleUserPayload;
 import com.legendme.login.svc.shared.dto.UserData;
+import java.util.UUID;
 
 /**
  * Puerto que define las operaciones relacionadas con el directorio de usuarios.
  * Este puerto se utiliza para gestionar y actualizar la información de los usuarios en el sistema.
  */
 public interface UserDirectoryPort {
+    record RegisterResponse(UUID id, String username, String email) {}
+
     /**
      * Inserta o actualiza un usuario en el sistema utilizando los datos proporcionados por Google.
      *
@@ -17,7 +21,9 @@ public interface UserDirectoryPort {
      */
     UserResponse upsertGoogleUser(GoogleUserPayload googleUserPayload);
 
-    Boolean ExistByEmail(String email);
+    Boolean existByEmail(String email);
 
-    //UserResponse createLocalUser(String firstName, String lastName, String username, String email, String password);
+    Boolean existByUsername(String username);
+
+    RegisterResponse createLocalUser(RegisterRequest registerRequest);
 }

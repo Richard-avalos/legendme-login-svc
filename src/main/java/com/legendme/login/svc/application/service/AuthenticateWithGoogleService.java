@@ -46,7 +46,6 @@ public class AuthenticateWithGoogleService implements AuthenticateWithGoogle {
         final UserResponse user;
         final AuthTokens tokens;
 
-
         g = googleVerifier.verify(idToken);
 
         if (Boolean.FALSE.equals(g.emailVerified())) {

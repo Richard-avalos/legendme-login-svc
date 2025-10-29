@@ -36,12 +36,8 @@ public class AuthControllerImpl implements AuthController {
          throw ex;
       }
    }
-
    @GetMapping("/api/secure/ping")
    public String pingSecure() {
       return "pong-secure";
    }
-
-
-
 }
