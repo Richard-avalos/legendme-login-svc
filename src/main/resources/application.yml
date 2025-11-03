@@ -1,12 +1,12 @@
 server:
-  port: 8081
+  port: 8080
   error:
     whitelabel:
       enabled: false
     include-stacktrace: never
 
 legendme-users-svc:
-  url: http://localhost:8080/legendme/users/create/google-user
+  url: http://legendme-users-svc:8080/legendme/users/create/google-user
 
 google:
   client-id: ${CLIENT_ID}
